@@ -1,4 +1,6 @@
+using EbanxApi.Database;
 using EbanxApi.Services.AccountManager;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IAccountManager, AccountManager>();
+
+builder.Services.AddDbContext<Context>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"))
+);
 
 var app = builder.Build();
 
